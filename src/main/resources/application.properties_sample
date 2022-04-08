@@ -1,0 +1,4 @@
+spring.datasource.driver-class-name="DB명"
+spring.datasource.url="DBurl"
+spring.datasource.username="사용자계정"
+spring.datasource.password="비밀번호"
