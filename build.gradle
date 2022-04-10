@@ -14,7 +14,10 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.7.5'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.flywaydb:flyway-core:8.5.7'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
+    implementation 'mysql:mysql-connector-java:8.0.28'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

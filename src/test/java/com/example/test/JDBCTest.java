@@ -18,11 +18,13 @@ public class JDBCTest {
     public void testConnection(){
         try(Connection con =
                     DriverManager.getConnection(
-                            "jdbc:mysql://localhost:포트번호/DB명",
+                            "DBurl",
                             "사용자",
                             "비밀번호")){
             System.out.println(con);
+            System.out.println("연결 성공!");
         } catch (Exception e) {
+            System.out.println("오류 발생!");
             e.getMessage();
         }
 
