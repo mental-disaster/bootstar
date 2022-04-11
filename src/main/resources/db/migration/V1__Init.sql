@@ -1,18 +1,17 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-                        `user_id` INT NOT NULL,
+                        `user_id` INT NOT NULL AUTO_INCREMENT,
                         `username` VARCHAR(16) NOT NULL,
-                        `password` VARCHAR(32) NOT NULL,
-                        `nickname` VARCHAR(16) NOT NULL DEFAULT 'username',
+                        `password` VARCHAR(255) NOT NULL,
+                        `nickname` VARCHAR(16) NOT NULL DEFAULT `username`,
                         `profileimage` BLOB NULL,
                         `email` VARCHAR(255) NULL,
                         `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-                        PRIMARY KEY (`user_id`))
-    ENGINE = InnoDB;
+                        PRIMARY KEY (`user_id`));
 
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
-                        `post_id` INT NOT NULL,
+                        `post_id` INT NOT NULL AUTO_INCREMENT,
                         `author_id` INT NOT NULL,
                         `image` BLOB NULL,
                         `caption` BLOB NULL,
@@ -22,12 +21,11 @@ CREATE TABLE `post` (
                         FOREIGN KEY (`author_id`)
                             REFERENCES `user` (`user_id`)
                             ON DELETE NO ACTION
-                            ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
+                            ON UPDATE NO ACTION);
 
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
-                           `comment_id` INT NOT NULL,
+                           `comment_id` INT NOT NULL AUTO_INCREMENT,
                            `author_id` INT NOT NULL,
                            `post_id` INT NOT NULL,
                            `detail` BLOB NULL,
@@ -41,5 +39,4 @@ CREATE TABLE `comment` (
                            FOREIGN KEY (`author_id`)
                                REFERENCES `user` (`user_id`)
                                ON DELETE NO ACTION
-                               ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
+                               ON UPDATE NO ACTION);
