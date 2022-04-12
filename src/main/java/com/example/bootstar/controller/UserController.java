@@ -7,8 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,7 +42,18 @@ public class UserController {
     public String signUpForm(){ return "/signup"; }
 
     @PostMapping("/signup")
-    public String signup(User user){
+    public String signup(@Valid User user, Errors errors, Model model){
+        if(errors.hasErrors()){
+            model.addAttribute("user",user);
+
+            Map<String, String> validResult = userService.validHandling(errors);
+            for(String key:validResult.keySet()){
+                model.addAttribute(key, validResult.get(key));
+            }
+
+            return "/signup";
+        }
+
         userService.joinUser(user);
         return "redirect:/login";
     }
