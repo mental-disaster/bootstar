@@ -25,6 +25,9 @@ public class UserController {
     @GetMapping("/login")
     public String login() { return "/login"; }
 
+//    @GetMapping("/logout")
+//    public String logout() { return "redirect:/"; }
+
     @GetMapping("/hello")
     public String userAccess(Model model, Authentication authentication){
         User user = (User) authentication.getPrincipal();
@@ -44,10 +47,12 @@ public class UserController {
         boolean Trigger = false;
 
         try{
+            //아이디 중복 검증 - DB에서 아이디 기반 검색에 성공하면 이미 존재하는 아이디
             userService.loadUserByUsername(user.getUsername());
             model.addAttribute("error_username", "이미 존재하는 회원입니다");
             Trigger = true;
         }finally {
+            //입력값 유효성 검증
             if(errors.hasErrors()){
                 Map<String, String> validResult = userService.validHandling(errors);
                 for(String key:validResult.keySet()){
@@ -61,6 +66,7 @@ public class UserController {
                 return "/signup";
             }
 
+            //신규 유저 생성
             userService.joinUser(user);
             return "redirect:/login";
         }
