@@ -47,22 +47,22 @@ public class UserController {
             userService.loadUserByUsername(user.getUsername());
             model.addAttribute("error_username", "이미 존재하는 회원입니다");
             Trigger = true;
-        }finally {}
+        }finally {
+            if(errors.hasErrors()){
+                Map<String, String> validResult = userService.validHandling(errors);
+                for(String key:validResult.keySet()){
+                    model.addAttribute(key, validResult.get(key));
+                }
 
-        if(errors.hasErrors()){
-            Map<String, String> validResult = userService.validHandling(errors);
-            for(String key:validResult.keySet()){
-                model.addAttribute(key, validResult.get(key));
+                return "/signup";
             }
 
-            return "/signup";
-        }
+            if(Trigger){
+                return "/signup";
+            }
 
-        if(Trigger){
-            return "/signup";
+            userService.joinUser(user);
+            return "redirect:/login";
         }
-
-        userService.joinUser(user);
-        return "redirect:/login";
     }
 }
