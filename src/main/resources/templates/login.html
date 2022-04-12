@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
 </head>
 <body>
-<h1>회원가입</h1>
-<form method="post" action="/signup">
+<h1>로그인</h1>
+<form th:action="@{/login_pro}" method="post">
   <input type="username" name="username" placeholder="username">
   <input type="password" name="password" placeholder="password">
-  <input type="submit" value="회원가입">
+  <input type="submit" value="로그인">
 </form>
-<button type="button" onclick="location.href='login'">로그인하러가기</button>
+<button type="button" onclick="location.href='signup'">회원가입하러가기</button>
 </body>
 </html>
