@@ -3,7 +3,6 @@ package com.example.bootstar.Service;
 import com.example.bootstar.entity.User;
 import com.example.bootstar.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,9 +18,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    UserMapper userMapper;
+    final UserMapper userMapper;
 
+    //회원가입 유저 저장
     @Transactional
     public void joinUser(User user){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -30,6 +29,7 @@ public class UserService implements UserDetailsService {
         userMapper.saveUser(user);
     }
 
+    //회원가입 유효성 검증
     @Transactional
     public Map<String, String> validHandling(Errors errors){
         Map<String, String> validResult = new HashMap<>();
@@ -41,11 +41,12 @@ public class UserService implements UserDetailsService {
         return validResult;
     }
 
+    //로그인 아이디 추출
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException{
         User user = userMapper.getUserAccount(username);
         if(user == null){
-            throw new UsernameNotFoundException(String.format("there is no user name {0}", username));
+            throw new UsernameNotFoundException("존재하지 않는 유저입니다");
         }
         return user;
     }
