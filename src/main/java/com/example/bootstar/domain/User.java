@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @Size(min = 2,max = 16,message = "비밀번호는 2자 이상 16자 이하로 입력하십시오")
     private String password;
     private String nickname;
-    private byte[] profileimage;
+    private String profileimage;
     @Email(message = "올바른 이메일을 입력하십시오")
     private String email;
     private Timestamp create_time;

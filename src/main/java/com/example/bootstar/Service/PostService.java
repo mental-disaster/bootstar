@@ -29,8 +29,8 @@ public class PostService {
 
     //게시물 삭제
     @Transactional
-    public void deletePost(Post post){
-        postMapper.terminatePost(post);
+    public void deletePost(int post_id){
+        postMapper.terminatePost(post_id);
     }
 
     //게시물 수정
@@ -40,6 +40,10 @@ public class PostService {
     }
 
     //게시물 읽기
+    public List<Map<String ,Object>> selectAllPostByUserId(int author_id){
+        return postMapper.getAllPostByUserId(author_id);
+    }
+
     public List<Map<String ,Object>> selectPostByUserId(int author_id){
         return postMapper.getPostByUserId(author_id);
     }

@@ -2,7 +2,6 @@ package com.example.bootstar.controller;
 
 import com.example.bootstar.Service.PostService;
 import com.example.bootstar.Service.UserService;
-import com.example.bootstar.domain.Post;
 import com.example.bootstar.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,7 +16,7 @@ import java.util.Map;
 
 @org.springframework.stereotype.Controller
 @RequiredArgsConstructor
-public class Controller {
+public class UserController {
 
     final UserService userService;
     final PostService postService;
@@ -39,49 +38,37 @@ public class Controller {
     @PostMapping("/signup")
     public String signup(@Valid User user, Errors errors, Model model){
 
-        boolean Trigger = false;
-
-        try{
-            //아이디 중복 검증 - DB에서 아이디 기반 검색에 성공하면 이미 존재하는 아이디
-            userService.loadUserByUsername(user.getUsername());
-            model.addAttribute("error_username", "이미 존재하는 회원입니다");
-            Trigger = true;
-        }finally {
-            //입력값 유효성 검증
-            if(errors.hasErrors()){
-                Map<String, String> validResult = userService.validHandling(errors);
-                for(String key:validResult.keySet()){
-                    model.addAttribute(key, validResult.get(key));
-                }
-
-                return "/signup";
-            }
-
-            if(Trigger){
-                return "/signup";
-            }
-
-            //신규 유저 생성
-            userService.joinUser(user);
-            return "redirect:/login";
+        boolean trigger = false;
+        //아이디 중복 검증 - DB에서 아이디 기반 검색에 성공하면 이미 존재하는 아이디
+        User user_info = userService.loadUserByUsername(user.getUsername());
+        if(user_info != null){
+            trigger = true;
         }
+        model.addAttribute("error_username", "이미 존재하는 회원입니다");
+        //입력값 유효성 검증
+        if(errors.hasErrors()){
+            Map<String, String> validResult = userService.validHandling(errors);
+            for(String key:validResult.keySet()){
+                model.addAttribute(key, validResult.get(key));
+            }
+            trigger = true;
+        }
+        if(trigger){
+            return "/signup";
+        }
+
+        //신규 유저 생성
+        userService.joinUser(user);
+        return "redirect:/login";
     }
 
     //로그인 후 메인화면
     @GetMapping("/hello")
     public String userAccess(Model model, Authentication authentication){
         User user = (User) authentication.getPrincipal();
-        model.addAttribute("name", user.getNickname());
-        List<Map<String, Object>> posts = postService.selectPostByUserId(user.getUser_id());
+        model.addAttribute("user", user);
+        List<Map<String, Object>> posts = postService.selectAllPostByUserId(user.getUser_id());
         model.addAttribute("posts",posts);
         return "/hello";
-    }
-
-    @PostMapping("/new_post")
-    public String createPost(Post post, Authentication authentication){
-        User user = (User) authentication.getPrincipal();
-        post.setAuthor_id(user.getUser_id());
-        postService.createPost(post);
-        return "redirect:/hello";
     }
 }

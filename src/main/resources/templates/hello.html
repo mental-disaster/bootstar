@@ -9,11 +9,12 @@
 <body>
 <h1>Welcome</h1>
 hi
-<div th:text="${name}"></div>
+<div th:text="${user.nickname}"></div>
 <button type="button" onclick="location.href='logout'">로그아웃</button>
-<form th:action="@{/new_post}" method="post">
-    <textarea name="caption" placeholder="caption" cols="30" rows="10"></textarea>
-    <input type="submit" value="게시하기">
+<form th:action="@{/post}" th:method="post">
+    <input type="file" name="image" accept="image/*">
+    <textarea name="caption" placeholder="내용을 입력하세요" cols="30" rows="3"></textarea>
+    <button type="submit">게시하기</button>
 </form>
 
 <table>
@@ -22,6 +23,19 @@ hi
     <td th:text="${post.created_at}"></td>
     <td th:text="${post.updated_at}"></td>
     <td th:text="${post.caption}"></td>
+    <td th:if="${post.author_id}==${user.user_id}">
+        <form th:action="@{'/post/'+${post.post_id}}" method="post">
+            <input type="hidden" name="_method" value="put"/>
+            <input type="text" name="caption" id="caption" placeholder="수정할 내용을 입력하십시오"/>
+            <input type="submit" value="수정하기"/>
+        </form>
+    </td>
+    <td th:if="${post.author_id}==${user.user_id}">
+        <form th:action="@{'/post/'+${post.post_id}}" th:method="delete">
+            <input type="hidden" name="_method" value="delete"/>
+            <input type="submit" value="삭제하기"/>
+        </form>
+    </td>
 </tr>
 </table>
 </body>

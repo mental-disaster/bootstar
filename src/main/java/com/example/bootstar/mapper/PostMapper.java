@@ -15,8 +15,10 @@ public interface PostMapper {
     void changePost(Post post);
 
     //게시물 삭제
-    void terminatePost(Post post);
+    void terminatePost(int post_id);
 
     //게시물 읽기
+    List<Map<String, Object>> getAllPostByUserId(int author_id);
+
     List<Map<String, Object>> getPostByUserId(int author_id);
 }

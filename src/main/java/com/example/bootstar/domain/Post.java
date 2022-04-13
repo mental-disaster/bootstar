@@ -12,7 +12,7 @@ public class Post {
     @Id
     private int post_id;
     private int author_id;
-    private byte[] image;
+    private String image;
     private String caption;
     private Timestamp created_at;
     private Timestamp updated_at;

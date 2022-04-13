@@ -4,7 +4,6 @@ import com.example.bootstar.domain.User;
 import com.example.bootstar.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -42,11 +41,8 @@ public class UserService implements UserDetailsService {
 
     //로그인 아이디 추출
     @Override
-    public User loadUserByUsername(String username) throws UsernameNotFoundException{
+    public User loadUserByUsername(String username) {
         User user = userMapper.getUserAccount(username);
-        if(user == null){
-            throw new UsernameNotFoundException("존재하지 않는 유저입니다");
-        }
         return user;
     }
 }
