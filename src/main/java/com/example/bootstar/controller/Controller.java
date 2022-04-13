@@ -1,43 +1,38 @@
 package com.example.bootstar.controller;
 
+import com.example.bootstar.Service.PostService;
 import com.example.bootstar.Service.UserService;
-import com.example.bootstar.entity.User;
+import com.example.bootstar.domain.Post;
+import com.example.bootstar.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
-@Controller
+@org.springframework.stereotype.Controller
 @RequiredArgsConstructor
-public class UserController {
+public class Controller {
 
     final UserService userService;
+    final PostService postService;
 
+    //메인화면(로그인 화면)
     @GetMapping
     public String root() { return "redirect:/login"; }
 
     @GetMapping("/login")
     public String login() { return "/login"; }
 
-//    @GetMapping("/logout")
-//    public String logout() { return "redirect:/"; }
-
-    @GetMapping("/hello")
-    public String userAccess(Model model, Authentication authentication){
-        User user = (User) authentication.getPrincipal();
-        model.addAttribute("name", user.getNickname());
-        return "/hello";
-    }
-
     @GetMapping("/login_fail")
-    public String AccessDenied() { return "/login_fail"; }
+    public String accessDenied() { return "/login_fail"; }
 
+    //회원가입
     @GetMapping("/signup")
     public String signUpForm(){ return "/signup"; }
 
@@ -70,5 +65,23 @@ public class UserController {
             userService.joinUser(user);
             return "redirect:/login";
         }
+    }
+
+    //로그인 후 메인화면
+    @GetMapping("/hello")
+    public String userAccess(Model model, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("name", user.getNickname());
+        List<Map<String, Object>> posts = postService.selectPostByUserId(user.getUser_id());
+        model.addAttribute("posts",posts);
+        return "/hello";
+    }
+
+    @PostMapping("/new_post")
+    public String createPost(Post post, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        post.setAuthor_id(user.getUser_id());
+        postService.createPost(post);
+        return "redirect:/hello";
     }
 }

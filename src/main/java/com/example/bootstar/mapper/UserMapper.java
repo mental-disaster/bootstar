@@ -1,11 +1,11 @@
 package com.example.bootstar.mapper;
 
-import com.example.bootstar.entity.User;
+import com.example.bootstar.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper{
-    //로그인
+    //유저정보확인
     User getUserAccount(String username);
 
     //회원가입

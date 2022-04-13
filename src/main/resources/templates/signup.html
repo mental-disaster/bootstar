@@ -6,7 +6,7 @@
 <body>
 <h1>회원가입</h1>
 <form method="post" action="/signup">
-  <input type="username" name="username" placeholder="username">
+  <input type="text" name="username" placeholder="username">
   <div th:text="${error_username}"></div>
   <input type="password" name="password" placeholder="password">
   <div th:text="${error_password}"></div>

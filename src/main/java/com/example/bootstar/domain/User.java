@@ -1,4 +1,4 @@
-package com.example.bootstar.entity;
+package com.example.bootstar.domain;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,8 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

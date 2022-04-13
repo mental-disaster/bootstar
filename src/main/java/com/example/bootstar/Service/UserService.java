@@ -1,6 +1,6 @@
 package com.example.bootstar.Service;
 
-import com.example.bootstar.entity.User;
+import com.example.bootstar.domain.User;
 import com.example.bootstar.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +30,6 @@ public class UserService implements UserDetailsService {
     }
 
     //회원가입 유효성 검증
-    @Transactional
     public Map<String, String> validHandling(Errors errors){
         Map<String, String> validResult = new HashMap<>();
 

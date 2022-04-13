@@ -11,5 +11,18 @@
 hi
 <div th:text="${name}"></div>
 <button type="button" onclick="location.href='logout'">로그아웃</button>
+<form th:action="@{/new_post}" method="post">
+    <textarea name="caption" placeholder="caption" cols="30" rows="10"></textarea>
+    <input type="submit" value="게시하기">
+</form>
+
+<table>
+<tr th:each="post:${posts}">
+    <td th:text="${post.nickname}"></td>
+    <td th:text="${post.created_at}"></td>
+    <td th:text="${post.updated_at}"></td>
+    <td th:text="${post.caption}"></td>
+</tr>
+</table>
 </body>
 </html>
