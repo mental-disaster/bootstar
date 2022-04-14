@@ -9,7 +9,7 @@
 <body>
 <h1>개인페이지</h1>
 어서오세요
-<div th:inline="text" th:text="${user.nickname}">님</div>
+<div><span>[[${user.nickname}]] 님</span></div>
 <button type="button" onclick="location.href='hello'">메인화면</button>
 <button type="button" onclick="location.href='logout'">로그아웃</button>
 <table  th:each="post:${posts}">
