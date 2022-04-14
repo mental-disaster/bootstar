@@ -12,6 +12,7 @@
     <update id="changePost" parameterType="com.example.bootstar.domain.Post">
         UPDATE post
         SET caption=#{caption},
+            image=COALESCE(#{image},image),
             updated_at=DEFAULT
         WHERE post_id=#{post_id};
     </update>

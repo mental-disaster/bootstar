@@ -35,10 +35,10 @@ public class PostController {
             return "redirect:/hello";
         }
         String image_name = postService.saveImage(image_data);
+        post.setImage(image_name);
 
         User user = (User) authentication.getPrincipal();
         post.setAuthor_id(user.getUser_id());
-        post.setImage(image_name);
 
         postService.createPost(post);
         return "redirect:/hello";
@@ -57,7 +57,13 @@ public class PostController {
     }
 
     @PutMapping("/post/{post_id}")
-    public String updatePost(Post post){
+    public String updatePost(Post post, @RequestPart MultipartFile image_data, RedirectAttributes redirectAttributes) throws Exception{
+        String sourceFileName = image_data.getOriginalFilename();
+        if(!sourceFileName.equals("")){
+            String image_name = postService.saveImage(image_data);
+            post.setImage(image_name);
+        }
+
         postService.updatePost(post);
         return "redirect:/hello";
     }
