@@ -24,8 +24,7 @@ hi
         <td th:text="${post.updated_at}"></td>
     </tr>
     <tr>
-        <td><img width="300" src="${post.image}"/></td>
-        <td th:text="${post.image}"></td>
+        <td><img width="300" th:src="@{/image/__${post.image}__}"/></td>
     </tr>
     <tr>
         <td th:text="${post.caption}"></td>
