@@ -66,7 +66,7 @@ public class UserController {
         return "redirect:/login";
     }
 
-    //로그인 후 메인화면
+    //로그인 후 메인화면(모든 유저 타임라인)
     @GetMapping("/hello")
     public String userAccess(Model model, @ModelAttribute("image_error") String image_error, Authentication authentication){
         User user = (User) authentication.getPrincipal();
@@ -75,5 +75,16 @@ public class UserController {
         model.addAttribute("image_error",image_error);
         model.addAttribute("posts",posts);
         return "/hello";
+    }
+
+    //개인 타임라인
+    @GetMapping("/personal")
+    public String personalPage(Model model, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("user", user);
+        List<Map<String, Object>> posts = postService.selectPostByUserId(user.getUser_id());
+        model.addAttribute("posts",posts);
+        return "/personal";
+
     }
 }
