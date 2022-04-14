@@ -2,11 +2,8 @@ package com.example.bootstar.controller;
 
 import com.example.bootstar.Service.PostService;
 import com.example.bootstar.Service.UserService;
-import com.example.bootstar.domain.Post;
 import com.example.bootstar.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;

@@ -12,6 +12,12 @@
 <div><span>[[${user.nickname}]] 님</span></div>
 <button type="button" onclick="location.href='hello'">메인화면</button>
 <button type="button" onclick="location.href='logout'">로그아웃</button>
+<form th:action="@{/post}" method="post" enctype="multipart/form-data">
+    <input type="file" name="image_data" accept="image/*">
+    <textarea name="caption" placeholder="내용을 입력하세요" cols="30" rows="3"></textarea>
+    <button type="submit">게시하기</button>
+    <div th:text="${image_error}"></div>
+</form>
 <table  th:each="post:${posts}">
     <tr>
         <td th:text="${post.nickname}"></td>
