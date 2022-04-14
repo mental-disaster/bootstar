@@ -21,11 +21,11 @@
         WHERE post_id=#{post_id};
     </delete>
 
-    <select id="getAllPostByUserId" parameterType="int" resultType="map">
+    <select id="getAllPost" resultType="map">
     SELECT post_id,
         author_id,
         user.nickname,
-        image,
+        CONVERT(image USING utf8) AS image,
         CONVERT(caption USING utf8) AS caption,
         created_at,
         updated_at
@@ -37,12 +37,25 @@
         SELECT post_id,
                author_id,
                user.nickname,
-               image,
+               CONVERT(image USING utf8) AS image,
                CONVERT(caption USING utf8) AS caption,
                created_at,
                updated_at
         FROM post left join user on post.author_id=user.user_id
         WHERE author_id=#{author_id}
+        ORDER BY created_at DESC;
+    </select>
+
+    <select id="getPostByPostId" parameterType="int" resultType="map">
+        SELECT post_id,
+               author_id,
+               user.nickname,
+               CONVERT(image USING utf8) AS image,
+               CONVERT(caption USING utf8) AS caption,
+               created_at,
+               updated_at
+        FROM post left join user on post.author_id=user.user_id
+        WHERE post_id=#{post_id}
         ORDER BY created_at DESC;
     </select>
 </mapper>

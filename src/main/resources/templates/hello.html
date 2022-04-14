@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- 한글 utf-8 설정 -->
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -11,32 +11,40 @@
 hi
 <div th:text="${user.nickname}"></div>
 <button type="button" onclick="location.href='logout'">로그아웃</button>
-<form th:action="@{/post}" th:method="post">
-    <input type="file" name="image" accept="image/*">
+<form th:action="@{/post}" th:method="post" enctype="multipart/form-data">
+    <input type="file" name="image_data" accept="image/*">
     <textarea name="caption" placeholder="내용을 입력하세요" cols="30" rows="3"></textarea>
     <button type="submit">게시하기</button>
+    <div th:text="${image_error}"></div>
 </form>
-
-<table>
-<tr th:each="post:${posts}">
-    <td th:text="${post.nickname}"></td>
-    <td th:text="${post.created_at}"></td>
-    <td th:text="${post.updated_at}"></td>
-    <td th:text="${post.caption}"></td>
-    <td th:if="${post.author_id}==${user.user_id}">
-        <form th:action="@{'/post/'+${post.post_id}}" method="post">
-            <input type="hidden" name="_method" value="put"/>
-            <input type="text" name="caption" id="caption" placeholder="수정할 내용을 입력하십시오"/>
-            <input type="submit" value="수정하기"/>
-        </form>
-    </td>
-    <td th:if="${post.author_id}==${user.user_id}">
-        <form th:action="@{'/post/'+${post.post_id}}" th:method="delete">
-            <input type="hidden" name="_method" value="delete"/>
-            <input type="submit" value="삭제하기"/>
-        </form>
-    </td>
-</tr>
+<table  th:each="post:${posts}">
+    <tr>
+        <td th:text="${post.nickname}"></td>
+        <td th:text="${post.created_at}"></td>
+        <td th:text="${post.updated_at}"></td>
+    </tr>
+    <tr>
+        <td><img width="300" src="${post.image}"/></td>
+        <td th:text="${post.image}"></td>
+    </tr>
+    <tr>
+        <td th:text="${post.caption}"></td>
+    </tr>
+    <tr>
+        <td th:if="${post.author_id}==${user.user_id}">
+            <form th:action="@{'/post/'+${post.post_id}}" method="post">
+                <input type="hidden" name="_method" value="put"/>
+                <input type="text" name="caption" id="caption" placeholder="수정할 내용을 입력하십시오"/>
+                <input type="submit" value="수정하기"/>
+            </form>
+        </td>
+        <td th:if="${post.author_id}==${user.user_id}">
+            <form th:action="@{'/post/'+${post.post_id}}" th:method="delete">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="submit" value="삭제하기"/>
+            </form>
+        </td>
+    </tr>
 </table>
 </body>
 </html>

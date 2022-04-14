@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,11 @@ public class PostService {
     //게시물 삭제
     @Transactional
     public void deletePost(int post_id){
+        List<Map<String ,Object>> post = postMapper.getPostByPostId(post_id);
+        String fileUrl = "/Users/a/IdeaProjects/diexam01/bootstar/src/main/"+post.get(0).get("image");
+        File file = new File(fileUrl);
+        file.delete();
+
         postMapper.terminatePost(post_id);
     }
 
@@ -40,8 +46,8 @@ public class PostService {
     }
 
     //게시물 읽기
-    public List<Map<String ,Object>> selectAllPostByUserId(int author_id){
-        return postMapper.getAllPostByUserId(author_id);
+    public List<Map<String ,Object>> selectAllPost(){
+        return postMapper.getAllPost();
     }
 
     public List<Map<String ,Object>> selectPostByUserId(int author_id){

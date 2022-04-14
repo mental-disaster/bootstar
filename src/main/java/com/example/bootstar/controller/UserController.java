@@ -2,12 +2,16 @@ package com.example.bootstar.controller;
 
 import com.example.bootstar.Service.PostService;
 import com.example.bootstar.Service.UserService;
+import com.example.bootstar.domain.Post;
 import com.example.bootstar.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -64,10 +68,11 @@ public class UserController {
 
     //로그인 후 메인화면
     @GetMapping("/hello")
-    public String userAccess(Model model, Authentication authentication){
+    public String userAccess(Model model, @ModelAttribute("image_error") String image_error, Authentication authentication){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("user", user);
-        List<Map<String, Object>> posts = postService.selectAllPostByUserId(user.getUser_id());
+        List<Map<String, Object>> posts = postService.selectAllPost();
+        model.addAttribute("image_error",image_error);
         model.addAttribute("posts",posts);
         return "/hello";
     }
