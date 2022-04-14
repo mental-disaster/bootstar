@@ -11,7 +11,7 @@
 hi
 <div th:text="${user.nickname}"></div>
 <button type="button" onclick="location.href='logout'">로그아웃</button>
-<form th:action="@{/post}" th:method="post" enctype="multipart/form-data">
+<form th:action="@{/post}" method="post" enctype="multipart/form-data">
     <input type="file" name="image_data" accept="image/*">
     <textarea name="caption" placeholder="내용을 입력하세요" cols="30" rows="3"></textarea>
     <button type="submit">게시하기</button>
@@ -24,15 +24,16 @@ hi
         <td th:text="${post.updated_at}"></td>
     </tr>
     <tr>
-        <td><img width="300" th:src="@{/image/__${post.image}__}"/></td>
+        <td><img width="300" th:src="@{'/image/'+${post.image}}"/></td>
     </tr>
     <tr>
         <td th:text="${post.caption}"></td>
     </tr>
     <tr>
         <td th:if="${post.author_id}==${user.user_id}">
-            <form th:action="@{'/post/'+${post.post_id}}" method="post">
+            <form th:action="@{'/post/'+${post.post_id}}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_method" value="put"/>
+                <input type="file" name="image_data" accept="image/*">
                 <input type="text" name="caption" id="caption" placeholder="수정할 내용을 입력하십시오"/>
                 <input type="submit" value="수정하기"/>
             </form>

@@ -26,7 +26,6 @@ public class PostController {
     final PostService postService;
     private String fileUrl = "/Users/a/IdeaProjects/diexam01/bootstar/src/main/resources/uploadFiles/img/";
 
-
     @PostMapping("/post")
     public String createPost(Post post, @RequestPart MultipartFile image_data, RedirectAttributes redirectAttributes, Authentication authentication) throws Exception{
         //이미지 처리
@@ -35,18 +34,11 @@ public class PostController {
             redirectAttributes.addFlashAttribute("image_error", "이미지를 첨부해주세요");
             return "redirect:/hello";
         }
-        String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
-        File destinationFile;
-        String destinationFileName;
-        destinationFileName = RandomStringUtils.randomAlphanumeric(64)+"."+sourceFileNameExtension;
-        destinationFile = new File(fileUrl + destinationFileName);
-        destinationFile.getParentFile().mkdir();
-        image_data.transferTo(destinationFile);
-
+        String image_name = postService.saveImage(image_data);
 
         User user = (User) authentication.getPrincipal();
         post.setAuthor_id(user.getUser_id());
-        post.setImage(destinationFileName);
+        post.setImage(image_name);
 
         postService.createPost(post);
         return "redirect:/hello";
