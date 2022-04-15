@@ -1,7 +1,7 @@
 package com.example.bootstar.controller;
 
-import com.example.bootstar.Service.PostService;
-import com.example.bootstar.Service.UserService;
+import com.example.bootstar.service.PostService;
+import com.example.bootstar.service.UserService;
 import com.example.bootstar.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;

@@ -1,6 +1,6 @@
 package com.example.bootstar.controller;
 
-import com.example.bootstar.Service.PostService;
+import com.example.bootstar.service.PostService;
 import com.example.bootstar.domain.Post;
 import com.example.bootstar.domain.User;
 import lombok.RequiredArgsConstructor;

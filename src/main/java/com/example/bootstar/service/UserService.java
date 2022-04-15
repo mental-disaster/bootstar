@@ -1,4 +1,4 @@
-package com.example.bootstar.Service;
+package com.example.bootstar.service;
 
 import com.example.bootstar.domain.User;
 import com.example.bootstar.mapper.UserMapper;

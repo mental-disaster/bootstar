@@ -1,6 +1,6 @@
 package com.example.bootstar.config;
 
-import com.example.bootstar.Service.UserService;
+import com.example.bootstar.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,20 +18,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception{
         http
             .authorizeRequests()
-                .antMatchers("/signup","/login","/loginFail","/uploadFiles/**").permitAll()
+                .antMatchers("/uploadFiles/**").permitAll()
+                .antMatchers("/signup","/login","/loginFail").anonymous()
                 .antMatchers("/hello").hasAnyAuthority("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/login_pro")
+                .loginProcessingUrl("/loginPro")
                 .defaultSuccessUrl("/hello")
-                .failureUrl("/loginFail").permitAll()
+                .failureUrl("/loginFail")
                 .and()
             .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
+                .and()
+            .exceptionHandling()
+                .accessDeniedPage("/")
                 .and()
             .csrf().disable();
     }
