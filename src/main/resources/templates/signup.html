@@ -7,9 +7,9 @@
 <h1>회원가입</h1>
 <form method="post" action="/signup">
   <input type="text" name="username" placeholder="username">
-  <div th:text="${error_username}"></div>
+  <div th:text="${usernameError}"></div>
   <input type="password" name="password" placeholder="password">
-  <div th:text="${error_password}"></div>
+  <div th:text="${passwordError}"></div>
   <input type="submit" value="회원가입">
 </form>
 <button type="button" onclick="location.href='login'">로그인하러가기</button>

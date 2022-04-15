@@ -20,7 +20,6 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     private int user_id;
-    @NotBlank(message = "아이디를 입력하십시오")
     @Size(min = 2,max = 16,message = "아이디는 2자 이상 16자 이하로 입력하십시오")
     @Pattern(regexp="[a-zA-Z0-9]*",message = "ID는 영문자 또는 숫자만 입력할 수 있습니다")
     private String username;

@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception{
         http
             .authorizeRequests()
-                .antMatchers("/signup","/login","/login_fail","/uploadFiles/**").permitAll()
+                .antMatchers("/signup","/login","/loginFail","/uploadFiles/**").permitAll()
                 .antMatchers("/hello").hasAnyAuthority("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .loginProcessingUrl("/login_pro")
                 .defaultSuccessUrl("/hello")
-                .failureUrl("/login_fail").permitAll()
+                .failureUrl("/loginFail").permitAll()
                 .and()
             .logout()
                 .logoutUrl("/logout")

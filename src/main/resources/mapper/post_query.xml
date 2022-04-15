@@ -17,9 +17,9 @@
         WHERE post_id=#{post_id};
     </update>
 
-    <delete id="terminatePost" parameterType="com.example.bootstar.domain.Post">
+    <delete id="terminatePost" parameterType="int">
         DELETE FROM post
-        WHERE post_id=#{post_id};
+        WHERE post_id=#{postId};
     </delete>
 
     <select id="getAllPost" resultType="map">
@@ -43,7 +43,7 @@
                created_at,
                updated_at
         FROM post left join user on post.author_id=user.user_id
-        WHERE author_id=#{author_id}
+        WHERE author_id=#{authorId}
         ORDER BY created_at DESC;
     </select>
 
@@ -56,7 +56,7 @@
                created_at,
                updated_at
         FROM post left join user on post.author_id=user.user_id
-        WHERE post_id=#{post_id}
+        WHERE post_id=#{postId}
         ORDER BY created_at DESC;
     </select>
 </mapper>

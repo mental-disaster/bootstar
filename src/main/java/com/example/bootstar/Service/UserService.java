@@ -33,7 +33,7 @@ public class UserService implements UserDetailsService {
         Map<String, String> validResult = new HashMap<>();
 
         for (FieldError error : errors.getFieldErrors()){
-            String errorKeyName = String.format("error_%s", error.getField());
+            String errorKeyName = String.format("%sError", error.getField());
             validResult.put(errorKeyName, error.getDefaultMessage());
         }
         return validResult;

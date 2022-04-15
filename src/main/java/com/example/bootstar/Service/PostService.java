@@ -6,6 +6,7 @@ import com.example.bootstar.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
+    @Value("${fileUrl.imgUrl}")
+    private String imgUrl;
 
     final PostMapper postMapper;
 
@@ -33,13 +38,13 @@ public class PostService {
 
     //게시물 삭제
     @Transactional
-    public void deletePost(int post_id){
-        List<Map<String ,Object>> post = postMapper.getPostByPostId(post_id);
-        String fileUrl = "/Users/a/IdeaProjects/diexam01/bootstar/src/main/"+post.get(0).get("image");
-        File file = new File(fileUrl);
+    public void deletePost(int postId){
+        List<Map<String ,Object>> post = postMapper.getPostByPostId(postId);
+        String destFileUrl = imgUrl+post.get(0).get("image");
+        File file = new File(destFileUrl);
         file.delete();
 
-        postMapper.terminatePost(post_id);
+        postMapper.terminatePost(postId);
     }
 
     //게시물 수정
@@ -53,23 +58,24 @@ public class PostService {
         return postMapper.getAllPost();
     }
 
-    public List<Map<String ,Object>> selectPostByUserId(int author_id){
-        return postMapper.getPostByUserId(author_id);
+    public List<Map<String ,Object>> selectPostByUserId(int authorId){
+        return postMapper.getPostByUserId(authorId);
     }
 
     //이미지 처리
-    private String fileUrl = "/Users/a/IdeaProjects/diexam01/bootstar/src/main/resources/uploadFiles/img/";
+    public String saveImage(MultipartFile imgData){
+        String srcFileName = imgData.getOriginalFilename();
+        String srcFileNameExt = FilenameUtils.getExtension(srcFileName).toLowerCase();
+        String destFileName = RandomStringUtils.randomAlphanumeric(64)+"."+srcFileNameExt;
+        File destFile = new File(imgUrl + destFileName);
+        destFile.getParentFile().mkdir();
+        try {
+            imgData.transferTo(destFile);
+        } catch (IOException e) {
+            //TODO: 예외처리 로직 추가 필요
+            e.printStackTrace();
+        }
 
-    public String saveImage(MultipartFile image_data) throws Exception{
-        String sourceFileName = image_data.getOriginalFilename();
-        String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase();
-        File destinationFile;
-        String destinationFileName;
-        destinationFileName = RandomStringUtils.randomAlphanumeric(64)+"."+sourceFileNameExtension;
-        destinationFile = new File(fileUrl + destinationFileName);
-        destinationFile.getParentFile().mkdir();
-        image_data.transferTo(destinationFile);
-
-        return destinationFileName;
+        return destFileName;
     }
 }
