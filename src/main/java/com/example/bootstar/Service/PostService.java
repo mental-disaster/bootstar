@@ -50,6 +50,12 @@ public class PostService {
     //게시물 수정
     @Transactional
     public void updatePost(Post post){
+        if(post.getImage() != null){
+            List<Map<String ,Object>> oldPost = postMapper.getPostByPostId(post.getPost_id());
+            String destFileUrl = imgUrl+oldPost.get(0).get("image");
+            File file = new File(destFileUrl);
+            file.delete();
+        }
         postMapper.changePost(post);
     }
 

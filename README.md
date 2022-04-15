@@ -1,5 +1,9 @@
 # bootstar
 
+### 개발환경
+Java 1.8</br>
+MariaDB 10.7.3
+
 ### To Do List
 >- [X] 회원가입
 >>- [X] 잘못된 입력 처리 기능
@@ -19,3 +23,4 @@
 - [ ] domain dto/entity 분리
 - [X] 중복 아이디 입력 방지 기능 로직 변경
 - [ ] readme 최적화
+- [ ] DB구조 최적화

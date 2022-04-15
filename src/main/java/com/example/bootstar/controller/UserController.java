@@ -24,8 +24,14 @@ public class UserController {
     final PostService postService;
 
     //메인화면(로그인 화면)
-    @GetMapping
-    public String root() { return "redirect:/login"; }
+    @GetMapping("")
+    public String root(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        if(user != null){
+            return "redirect:/hello";
+        }
+        return "redirect:/login";
+    }
 
     @GetMapping("/login")
     public String login() { return "/login"; }

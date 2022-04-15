@@ -18,12 +18,13 @@ import java.util.*;
 @Entity
 @Data
 public class User implements UserDetails {
+    //TODO: domain과 관련된 부분은 DB개편과 함께 진행할 예정
     @Id
     private int user_id;
     @Size(min = 2,max = 16,message = "아이디는 2자 이상 16자 이하로 입력하십시오")
     @Pattern(regexp="[a-zA-Z0-9]*",message = "ID는 영문자 또는 숫자만 입력할 수 있습니다")
     private String username;
-    @Size(min = 2,max = 16,message = "비밀번호는 2자 이상 16자 이하로 입력하십시오")
+    @Size(min = 4,max = 16,message = "비밀번호는 4자 이상 16자 이하로 입력하십시오")
     private String password;
     private String nickname;
     private String profileimage;
